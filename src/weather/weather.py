@@ -65,7 +65,7 @@ class HelloWorld(BotPlugin):
             if int(day) == today.day:
                 toShow = self.nameToEmoji(dataD['weather'][-1]['description'])
                 temp = round(dataD['main']['temp_min'])
-                if len(line) == len(day):
+                if len(line)-1 == lenDate:
                     # No data yet
                     tempMin = temp
                     tempMax = temp
