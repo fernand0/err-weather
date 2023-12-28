@@ -8,7 +8,7 @@ from socialModules.configMod import *
 
 class HelloWorld(BotPlugin):
 
-    def loadData(typeData = 'weather', city = 'Zaragoza,es'):
+    def loadData(self, typeData = 'weather', city = 'Zaragoza,es'):
     
         config = configparser.ConfigParser()
         config.read(CONFIGDIR + '/.rssOpenWeather')
@@ -24,7 +24,7 @@ class HelloWorld(BotPlugin):
     
         return data
     
-    def nameToEmoji(text):
+    def nameToEmoji(self, text):
         # https://openweathermap.org/weather-conditions
         toShow = None
         if text  == 'overcast clouds':
@@ -49,10 +49,10 @@ class HelloWorld(BotPlugin):
     @botcmd  # this tag this method as a command
     def weather(self, mess, args):  # it will respond to !hello
         """this command says hello"""  # this will be the answer of !help hello
-        dataW = loadData('weather', 'Zaragoza,es')
-        dataF = loadData('forecast')
+        dataW = self.loadData('weather', 'Zaragoza,es')
+        dataF = self.loadData('forecast')
 
-        print(f"Now: {nameToEmoji(dataW['weather'][0]['description'])}  "
+        yield(f"Now: {self.nameToEmoji(dataW['weather'][0]['description'])}  "
               f"Temp: {dataW['main']['temp']}")
 
         previousDate = ''
@@ -63,7 +63,7 @@ class HelloWorld(BotPlugin):
         for dataD in dataF['list']:
             day = dataD['dt_txt'][8:10]
             if int(day) == today.day:
-                toShow = nameToEmoji(dataD['weather'][-1]['description'])
+                toShow = self.nameToEmoji(dataD['weather'][-1]['description'])
                 temp = round(dataD['main']['temp_min'])
                 if len(line) == 11:
                     tempMin = temp

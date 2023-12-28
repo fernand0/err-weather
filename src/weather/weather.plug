@@ -1,9 +1,9 @@
 [Core]
 Name = Weather
-Module = wheather
+Module = weather
     
 [Documentation]
 Description = Showing the weather!
 
 [Python]
-Version = 3+
+Version = 3
