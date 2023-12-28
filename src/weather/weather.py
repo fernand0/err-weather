@@ -60,6 +60,7 @@ class HelloWorld(BotPlugin):
         today = datetime.datetime.now()
         lenDate = len('xxxx-xx-xx')
         line = f"{str(today)[:lenDate]}:"
+        tempMin = tempMax = ""
         for dataD in dataF['list']:
             day = dataD['dt_txt'][lenDate-2:lenDate]
             if int(day) == today.day:
