@@ -1,4 +1,4 @@
 err-helloworld
 --------------
 
-This is a trivial plugin which is mainly used for unit and integration testing of the core errbot code.
+This is a plugin which can check the data at OpenWeatherMap (needs an API key) and shows the current weather an the prediction for the following days.
