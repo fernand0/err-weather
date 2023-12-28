@@ -59,7 +59,6 @@ class HelloWorld(BotPlugin):
         prediction = {}
         today = datetime.datetime.now()
         line = f"{str(today)[:10]}:"
-        i = 0
         for dataD in dataF['list']:
             day = dataD['dt_txt'][8:10]
             if int(day) == today.day:
@@ -79,5 +78,4 @@ class HelloWorld(BotPlugin):
                 yield(f"{line}")
                 today = today + datetime.timedelta(days=1)
                 line = f"{str(today)[:10]}:"
-
 
