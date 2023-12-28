@@ -58,9 +58,10 @@ class HelloWorld(BotPlugin):
         previousDate = ''
         prediction = {}
         today = datetime.datetime.now()
-        line = f"{str(today)[:10]}:"
+        lenDate = len('xxxx-xx-xx')
+        line = f"{str(today)[:lenDate]}:"
         for dataD in dataF['list']:
-            day = dataD['dt_txt'][8:10]
+            day = dataD['dt_txt'][lenDate-2:lenDate]
             if int(day) == today.day:
                 toShow = self.nameToEmoji(dataD['weather'][-1]['description'])
                 temp = round(dataD['main']['temp_min'])
@@ -78,5 +79,5 @@ class HelloWorld(BotPlugin):
                 line = f"{line} [{tempMin},{tempMax}]"
                 yield(f"{line}")
                 today = today + datetime.timedelta(days=1)
-                line = f"{str(today)[:10]}:"
+                line = f"{str(today)[:lenDate]}:"
 
