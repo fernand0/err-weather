@@ -77,8 +77,9 @@ class HelloWorld(BotPlugin):
                 if len(temp) == 1: temp = f" {temp}"
                 line = f"{line} {temp} {toShow}"
             else:
-                line = f"{line} [{tempMin},{tempMax}]"
-                yield(f"{line}")
+                if tempMin:
+                    line = f"{line} [{tempMin},{tempMax}]"
+                    yield(f"{line}")
                 today = today + datetime.timedelta(days=1)
                 line = f"{str(today)[:lenDate]}:"
 
