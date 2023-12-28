@@ -1,0 +1,9 @@
+[Core]
+Name = Weather
+Module = weather
+    
+[Documentation]
+Description = Showing the weather!
+
+[Python]
+Version = 3
