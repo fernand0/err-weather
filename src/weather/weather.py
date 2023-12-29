@@ -6,9 +6,33 @@ import requests
 
 from socialModules.configMod import *
 
-class HelloWorld(BotPlugin):
+class Weather(BotPlugin):
 
-    def loadData(self, typeData = 'weather', city = 'Zaragoza,es'):
+    def get_configuration_template(self):
+        """
+            Configuration of the city
+        """
+        config = {'city': "Zaragoza,es"}
+        return config
+
+    def _check_config(self, option):
+
+        # if no config, return nothing
+        if self.config is None:
+            return None
+        else:
+            # now, let's validate the key
+            if option in self.config:
+                return self.config[option]
+            else:
+                return None
+
+    def activate(self):
+        super().activate()
+
+    def loadData(self, typeData = 'weather'):
+
+        city = self._check_config('city')
     
         config = configparser.ConfigParser()
         config.read(CONFIGDIR + '/.rssOpenWeather')
@@ -49,7 +73,7 @@ class HelloWorld(BotPlugin):
     @botcmd  # this tag this method as a command
     def weather(self, mess, args):  # it will respond to !hello
         """this command says hello"""  # this will be the answer of !help hello
-        dataW = self.loadData('weather', 'Zaragoza,es')
+        dataW = self.loadData('weather')
         dataF = self.loadData('forecast')
 
         yield(f"Now: {self.nameToEmoji(dataW['weather'][0]['description'])}  "
