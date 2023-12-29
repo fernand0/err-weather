@@ -30,10 +30,8 @@ class Weather(BotPlugin):
     def activate(self):
         super().activate()
 
-    def loadData(self, typeData = 'weather'):
+    def loadData(self, typeData = 'weather', city = None):
 
-        city = self._check_config('city')
-    
         config = configparser.ConfigParser()
         config.read(CONFIGDIR + '/.rssOpenWeather')
     
@@ -73,10 +71,17 @@ class Weather(BotPlugin):
     @botcmd  # this tag this method as a command
     def weather(self, mess, args):  # it will respond to !hello
         """this command says hello"""  # this will be the answer of !help hello
-        dataW = self.loadData('weather')
-        dataF = self.loadData('forecast')
+        city = None
+        if args:
+            city = args
+        if not city:
+            city = self._check_config('city')
+    
+        dataW = self.loadData('weather', city)
+        dataF = self.loadData('forecast', city)
 
-        yield(f"Now: {self.nameToEmoji(dataW['weather'][0]['description'])}  "
+        yield(f"Now in {city}: "
+              f"{self.nameToEmoji(dataW['weather'][0]['description'])}  "
               f"Temp: {dataW['main']['temp']}")
 
         previousDate = ''
