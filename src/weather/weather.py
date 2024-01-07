@@ -48,7 +48,7 @@ class Weather(BotPlugin):
     
     def nameToEmoji(self, text):
         # https://openweathermap.org/weather-conditions
-        toShow = None
+        toShow = text
         if text  == 'overcast clouds':
              toShow = '☁️' # ☁️ '
         elif text == 'scattered clouds':
@@ -63,6 +63,8 @@ class Weather(BotPlugin):
              toShow = '🌦️'
         elif text == 'moderate rain':
             toShow = '🌧️'
+        elif text == 'light snow':
+             toShow = '🌨️'
         elif text == 'snow':
              toShow = '☃️'
         elif text == 'fog':
@@ -95,9 +97,9 @@ class Weather(BotPlugin):
         tempMin = tempMax = ""
         for dataD in dataF['list']:
             day = dataD['dt_txt'][lenDate-2:lenDate]
+            toShow = self.nameToEmoji(dataD['weather'][-1]['description'])
+            temp = round(dataD['main']['temp_min'])
             if int(day) == today.day:
-                toShow = self.nameToEmoji(dataD['weather'][-1]['description'])
-                temp = round(dataD['main']['temp_min'])
                 if len(line) == 2:
                     # No data yet
                     tempMin = temp
@@ -107,13 +109,14 @@ class Weather(BotPlugin):
                     tempMax = max(temp, tempMax)
                 temp = str(temp)
                 if len(temp) == 1: temp = f" {temp}"
-                line = f"{line} {temp} {toShow}"
             else:
                 if tempMin or tempMax:
                     # There was a problem when tempMin was 0 (zero)
                     line = f"{line} [{tempMin},{tempMax}]"
+                yield line
                 today = today + datetime.timedelta(days=1)
                 line = f"{today.strftime('%A')[:1]}:"
+            line = f"{line} {temp} {toShow}"
 
         line = f"{line} [{tempMin},{tempMax}]"
         yield(f"{line}")
