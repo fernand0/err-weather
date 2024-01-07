@@ -61,6 +61,8 @@ class Weather(BotPlugin):
              toShow = '🌞'
         elif text == 'light rain':
              toShow = '🌦️'
+        elif text == 'moderate rain':
+            toShow = '🌧️'
         elif text == 'snow':
              toShow = '☃️'
         elif text == 'fog':
@@ -87,15 +89,16 @@ class Weather(BotPlugin):
         previousDate = ''
         prediction = {}
         today = datetime.datetime.now()
+        #line = f"{str(today)[:lenDate]}:"
+        line = f"{today.strftime('%A')[:1]}:"
         lenDate = len('xxxx-xx-xx')
-        line = f"{str(today)[:lenDate]}:"
         tempMin = tempMax = ""
         for dataD in dataF['list']:
             day = dataD['dt_txt'][lenDate-2:lenDate]
             if int(day) == today.day:
                 toShow = self.nameToEmoji(dataD['weather'][-1]['description'])
                 temp = round(dataD['main']['temp_min'])
-                if len(line)-1 == lenDate:
+                if len(line) == 2:
                     # No data yet
                     tempMin = temp
                     tempMax = temp
@@ -106,9 +109,12 @@ class Weather(BotPlugin):
                 if len(temp) == 1: temp = f" {temp}"
                 line = f"{line} {temp} {toShow}"
             else:
-                if tempMin:
+                if tempMin or tempMax:
+                    # There was a problem when tempMin was 0 (zero)
                     line = f"{line} [{tempMin},{tempMax}]"
-                    yield(f"{line}")
                 today = today + datetime.timedelta(days=1)
-                line = f"{str(today)[:lenDate]}:"
+                line = f"{today.strftime('%A')[:1]}:"
+
+        line = f"{line} [{tempMin},{tempMax}]"
+        yield(f"{line}")
 
