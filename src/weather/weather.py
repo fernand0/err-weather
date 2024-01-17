@@ -105,8 +105,11 @@ class Weather(BotPlugin):
                     tempMin = temp
                     tempMax = temp
                 else:
-                    tempMin = min(temp, tempMin)
-                    tempMax = max(temp, tempMax)
+                    if temp and tempMin:
+                        tempMin = min(temp, tempMin)
+                        tempMax = max(temp, tempMax)
+                    else:
+                        tempMin = tempMax = temp
                 temp = str(temp)
                 if len(temp) == 1: temp = f" {temp}"
             else:
