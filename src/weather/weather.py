@@ -4,7 +4,6 @@ import datetime
 import json
 import requests
 
-import socialModules
 from socialModules.configMod import *
 
 class Weather(BotPlugin):
